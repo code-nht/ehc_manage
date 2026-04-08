@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head><title>Quản lý Bài tập</title></head>
+<body>
+    <h2>Danh sách Bài tập</h2>
+    <a href="/dashboard">Quay lại Dashboard</a><br><br>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}<ul style="color: blue;">{% for msg in messages %}<li>{{ msg }}</li>{% endfor %}</ul>{% endif %}
+    {% endwith %}
+
+    {% if current_user.role == 'teacher' %}
+        <fieldset>
+            <legend><b>Giao bài tập mới</b></legend>
+            <form method="POST" enctype="multipart/form-data">
+                Tiêu đề: <input type="text" name="title" required>
+                File đề bài: <input type="file" name="file" required>
+                <button type="submit">Đăng bài</button>
+            </form>
+        </fieldset>
+        <br>
+    {% endif %}
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>ID</th>
+            <th>Tiêu đề</th>
+            <th>File đề bài</th>
+            <th>Hành động</th>
+        </tr>
+        {% for a in assignments %}
+        <tr>
+            <td>{{ a.id }}</td>
+            <td>{{ a.title }}</td>
+            <td><a href="/download/assignments/{{ a.file_path }}">Tải đề về</a></td>
+            <td>
+                {% if current_user.role == 'teacher' %}
+                    <a href="/submissions/{{ a.id }}"><button>Xem bài nộp</button></a>
+                {% endif %}
+
+                {% if current_user.role == 'student' %}
+                    <form action="/submit/{{ a.id }}" method="POST" enctype="multipart/form-data" style="display:inline;">
+                        <input type="file" name="file" required>
+                        <button type="submit">Nộp bài</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
