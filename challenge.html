@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head><title>Giải đố EHC</title></head>
+<body>
+    <h2>Thử thách Giải đố</h2>
+    <a href="/dashboard">Quay lại Dashboard</a><br><br>
+
+    <style>
+        .success { color: green; font-weight: bold; }
+        .danger { color: red; font-weight: bold; }
+    </style>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+        {% for category, msg in messages %}
+          <li class="{{ category }}">{{ msg }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+
+    {% if current_user.role == 'teacher' %}
+        <fieldset>
+            <legend><b>Tạo trò chơi mới</b></legend>
+            <form method="POST" enctype="multipart/form-data">
+                Gợi ý cho sinh viên: <input type="text" name="hint" required size="50"><br><br>
+                File đáp án (.txt): <input type="file" name="file" accept=".txt" required><br>
+                <i>Lưu ý: Đặt tên file là đáp án, không dấu, cách nhau bởi khoảng trắng. VD: <b>truyen kieu.txt</b></i><br><br>
+                <button type="submit">Khởi tạo Game</button>
+            </form>
+        </fieldset>
+
+    {% else %}
+        <fieldset>
+            <legend><b>Khu vực Giải đố</b></legend>
+            <p><b>Gợi ý từ giáo viên:</b> {{ hint }}</p>
+            
+            <form method="POST">
+                Nhập tên file (đáp án): <input type="text" name="answer" required placeholder="ví dụ: truyen kieu">
+                <button type="submit">Trả lời</button>
+            </form>
+        </fieldset>
+
+        {% if content %}
+            <hr>
+            <h3>Nội dung bí mật:</h3>
+            <pre style="background: #f4f4f4; padding: 15px; border: 1px solid #ccc;">{{ content }}</pre>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

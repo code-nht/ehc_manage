@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đăng nhập</title>
+</head>
+<body>
+    <h2>Đăng nhập hệ thống</h2>
+    
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul style="color: red;">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        Tên đăng nhập: <input type="text" name="username" required><br><br>
+        Mật khẩu: <input type="password" name="password" required><br><br>
+        <button type="submit">Đăng nhập</button>
+    </form>
+    <a href="/register">Chưa có tài khoản? Đăng ký</a>
+</body>
+</html>

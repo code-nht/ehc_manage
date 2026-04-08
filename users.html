@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head><title>Danh sách Lớp</title></head>
+<body>
+    <h2>Danh sách thành viên EHC</h2>
+    <a href="/dashboard">Quay lại Dashboard</a> | <a href="/logout">Đăng xuất</a>
+    
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}<ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>{% endif %}
+    {% endwith %}
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>ID</th>
+            <th>Họ và tên</th>
+            <th>Vai trò</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Hành động</th>
+        </tr>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.full_name }}</td>
+            <td>{{ u.role }}</td>
+            <td>{{ u.email or 'Chưa cập nhật' }}</td>
+            <td>{{ u.phone or 'Chưa cập nhật' }}</td>
+            <td>
+                {% if current_user.role == 'teacher' or current_user.id == u.id %}
+                    <a href="/edit_user/{{ u.id }}"><button>Sửa</button></a>
+                {% endif %}
+
+                {% if current_user.role == 'teacher' %}
+                    <form action="/delete_user/{{ u.id }}" method="POST" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

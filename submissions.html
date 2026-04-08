@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Danh sách nộp bài</title></head>
+<body>
+    <h2>Danh sách bài nộp: {{ assignment.title }}</h2>
+    <a href="/assignments">Quay lại danh sách bài tập</a><br><br>
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>ID Bài nộp</th>
+            <th>ID Sinh viên nộp</th>
+            <th>File bài làm</th>
+        </tr>
+        {% for s in submissions %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>User ID: {{ s.student_id }}</td>
+            <td><a href="/download/submissions/{{ s.file_path }}">Tải bài làm</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="3">Chưa có sinh viên nào nộp bài.</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đăng ký</title>
+</head>
+<body>
+    <h2>Đăng ký tài khoản EHC</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul style="color: red;">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        Tên đăng nhập: <input type="text" name="username" required><br><br>
+        Mật khẩu: <input type="password" name="password" required><br><br>
+        Họ và tên: <input type="text" name="full_name" required><br><br>
+        Số điện thoại: <input type="text" name="phone" required><br><br>
+        Email: <input type="email" name="email"required><br><br>
+        Vai trò: 
+        <select name="role">
+            <option value="student">Sinh viên</option>
+            <option value="teacher">Giáo viên</option>
+        </select><br><br>
+        <button type="submit">Đăng ký</button>
+    </form>
+    <a href="/login">Đã có tài khoản? Đăng nhập</a>
+</body>
+</html>

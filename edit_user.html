@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head><title>Sửa thông tin</title></head>
+<body>
+    <h2>Cập nhật thông tin cho: {{ user.full_name }}</h2>
+    
+    <form method="POST">
+        Tên đăng nhập: 
+        <input type="text" name="username" value="{{ user.username }}" 
+            {% if current_user.role != 'teacher' %} readonly style="background:#eee;" {% endif %}><br><br>
+        
+        Họ và tên: 
+        <input type="text" name="full_name" value="{{ user.full_name }}"
+            {% if current_user.role != 'teacher' %} readonly style="background:#eee;" {% endif %}><br><br>
+
+        Email: <input type="email" name="email" value="{{ user.email or '' }}"><br><br>
+        Số điện thoại: <input type="text" name="phone" value="{{ user.phone or '' }}"><br><br>
+        
+        {% if current_user.role == 'teacher' %}
+        Vai trò:
+        <select name="role">
+            <option value="student" {% if user.role == 'student' %}selected{% endif %}>Sinh viên</option>
+            <option value="teacher" {% if user.role == 'teacher' %}selected{% endif %}>Giáo viên</option>
+        </select><br><br>
+        {% endif %}
+
+        <button type="submit">Lưu thay đổi</button>
+    </form>
+    <br>
+    <a href="/users">Hủy bỏ</a>
+</body>
+</html>
